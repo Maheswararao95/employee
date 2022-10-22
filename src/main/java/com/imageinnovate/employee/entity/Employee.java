@@ -2,6 +2,7 @@ package com.imageinnovate.employee.entity;
 
 import java.util.Date;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -27,7 +28,7 @@ public class Employee {
 	@Column(name = "last_name", nullable = false)
 	private String lastName;
 	
-	@Column(name = "email", nullable = false)
+	@Column(name = "email", nullable = false, unique = true)
 	private String email;
 	
 	@OneToMany(fetch = FetchType.LAZY)
@@ -35,7 +36,7 @@ public class Employee {
 	private List<EmployeeContact> phoneContacts;
 
 	@Column(name = "joined_date", nullable = false)
-	private Date dateOfJoining;
+	private LocalDate dateOfJoining;
 
 	@Column(name = "sal_per_mon", nullable = false)
 	private Integer salaryPerMonth;
@@ -86,11 +87,11 @@ public class Employee {
 		this.phoneContacts = phoneContacts;
 	}
 
-	public Date getDateOfJoining() {
+	public LocalDate getDateOfJoining() {
 		return dateOfJoining;
 	}
 
-	public void setDateOfJoining(Date dateOfJoining) {
+	public void setDateOfJoining(LocalDate dateOfJoining) {
 		this.dateOfJoining = dateOfJoining;
 	}
 

@@ -1,5 +1,6 @@
 package com.imageinnovate.employee.pojo;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -9,6 +10,11 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonFormatTypes;
 
 public class CreateEmployeeRequest {
 	@NotBlank
@@ -27,10 +33,12 @@ public class CreateEmployeeRequest {
 	@NotEmpty
 	private List<Long> phoneContacts;
 
-	@NotBlank
-	private Date dateOfJoining;
+	@NotNull
+	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+	private LocalDate dateOfJoining;
 
-	@Column(name = "sal_per_mon", nullable = false)
+	@NotNull
 	private Integer salaryPerMonth;
 
 	public String getFirstName() {
@@ -65,11 +73,11 @@ public class CreateEmployeeRequest {
 		this.phoneContacts = phoneContacts;
 	}
 
-	public Date getDateOfJoining() {
+	public LocalDate getDateOfJoining() {
 		return dateOfJoining;
 	}
 
-	public void setDateOfJoining(Date dateOfJoining) {
+	public void setDateOfJoining(LocalDate dateOfJoining) {
 		this.dateOfJoining = dateOfJoining;
 	}
 

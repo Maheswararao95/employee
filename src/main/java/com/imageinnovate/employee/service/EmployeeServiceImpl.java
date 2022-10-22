@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.imageinnovate.employee.entity.Employee;
 import com.imageinnovate.employee.entity.EmployeeContact;
 import com.imageinnovate.employee.pojo.CreateEmployeeRequest;
+import com.imageinnovate.employee.pojo.EmployeeResponse;
 import com.imageinnovate.employee.repo.EmployeeContactRepository;
 import com.imageinnovate.employee.repo.EmployeeRepository;
 
@@ -28,13 +29,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 	/**
 	 * Method to save employee details.
 	 */
-	public Employee createEmployee(CreateEmployeeRequest createEmployeeRequest) throws Exception {
+	public EmployeeResponse createEmployee(CreateEmployeeRequest createEmployeeRequest) throws Exception {
 		Employee employee = populateEmployee(createEmployeeRequest);
 		employeeRepository.save(employee);
 		List<EmployeeContact> employeeContacts = populatEmployeeContacts(createEmployeeRequest, employee);
 		employeeContactRepository.saveAll(employeeContacts);
 		employee.setPhoneContacts(employeeContacts);
-		return employee;
+		return prepareEmployeeResponse(employee);
 	}
 	
 	/**
@@ -72,6 +73,21 @@ public class EmployeeServiceImpl implements EmployeeService {
 			employeeContacts.add(contact);
 		}
 		return employeeContacts;
+	}
+	
+	private EmployeeResponse prepareEmployeeResponse(Employee employee) {
+		EmployeeResponse employeeResponse = new EmployeeResponse();
+		employeeResponse.setEmployeeId(employee.getEmployeeId());
+		employeeResponse.setFirstName(employee.getFirstName());
+		employeeResponse.setLastName(employee.getLastName());
+		employeeResponse.setEmail(employee.getEmail());
+		employeeResponse.setDateOfJoining(employee.getDateOfJoining().toString());
+		List<Long> phonesList = new ArrayList<>();
+		for (EmployeeContact phone: employee.getPhoneContacts()) {
+			phonesList.add(phone.getPhoneNumber());
+		}
+		employeeResponse.setPhoneNumbers(phonesList);
+		return employeeResponse;
 	}
 	
 }
