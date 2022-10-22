@@ -6,10 +6,11 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -29,7 +30,8 @@ public class Employee {
 	@Column(name = "email", nullable = false)
 	private String email;
 	
-	@ManyToOne
+	@OneToMany(fetch = FetchType.LAZY)
+	@Column
 	private List<EmployeeContact> phoneContacts;
 
 	@Column(name = "joined_date", nullable = false)

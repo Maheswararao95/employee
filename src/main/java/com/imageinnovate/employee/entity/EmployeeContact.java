@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -17,7 +18,7 @@ public class EmployeeContact {
 	@Column(name = "emp_contact_id")
 	private Integer empContactId;
 	
-	@Column(name = "employee_id", nullable = false)
+	@ManyToOne
 	private Employee employee;
 	
 	@Column(name = "country_code", nullable = false)
